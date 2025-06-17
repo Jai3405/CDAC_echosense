@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "sublime-vine-449205-s3",
+  "private_key_id": "adc9f663d600344bf19b58142053882f4bd534e6",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC+FKqxNVs2ft1x\nL2QSz0+P9bwc8u2V5ZpdV0Wr2WOVU0QhM9lsh8A7lTAVagpu2W4dzzIXayTlrxpo\nIzOVg6toA/9XrgWcb44CtQFr6GHpXWvmou1ed3CAnFPpUP5IIeyxzSgYnY/6K++d\nd1cJniNSZvRQ8LpoGCsx4dgawvws9hUXaLJyFBRLVKr3Kp/DIo29XE3N0VzfPiQh\nRZKm0loIaznBVBmwfH5PF7D9dpNQ2iDU0S4mcdcSxf9M7c0LVWZDq1O4JSPaxnS/\nfVz1l1Kqdi3l200HVBrXRtFpXCRvQvkWxCn037Q2SZwbZfHfH2KMFX3ELuql6cPR\nL/fuUiUnAgMBAAECggEAGnAOxb22xWpOgTL8PPmEsXCWYi26X0JOKXQSsVz30t8q\noguaJCma0oQPlLWTueiYE6FWmuyWId7W/MEDUw+7RCkPgjHRf06sy9ztKQXAszqr\n3/+tUERV64LS0P1+QKjR88ZQhgv0PfGPzwZi9BLWCtyzApxY8P2GPyvlvjh8kVbI\nYs7zWL2Wk3SM3XIblCbfkQ5NyZdXFCPXOsoAYAcFwy8Y4a5QkrrcPMFxwMYhAV20\ntrOPbdOPqH38OVNXZHtBODS129J3gEHhUg4GNcKc1KTV9st7Uk7yr7zWPdAxtbGz\nHIJVGNFR3PDHQiu4GATvEfOHHyPQAXmzH3IqHMuIYQKBgQD4xHHz/V3PnM0SeljN\nhX/Y3j/OF0npRik780zx9YaqSKmALC0hSTrSsLg6lhs9Opto/909K/8oq8N3M/8H\nmm0Ce+6l6JQmgKYDkwN8PnUFxG4w7k/yb0TmnNJDn+Y9IS+tg8MW4lEEmRzov7nd\nTMzXP4Z7KdAVTwPXTh+4R8IMnwKBgQDDm2wAgC6CEGHNt568GlR4jEP7FP4ZbHnv\ndsAgWGpl7+NjGQqF3SveS0Bnyywt3YNRKXrMtdZzuRBxAzUcu5gwTpnaMCsGOaQT\nrDkWsy3V/aGv6dE0zE7MA/J8TNPs3m2EgU7OC7sAxV+ou/S8rJ4/ih80G072JLqL\nZp/d3ukSeQKBgEpUeDANHoCwO14wDGSsZPzpu2ra7oyzGBL/qZgKYshymaLgkEOH\n2/mkMAfhXhY3csQ232YtxTnjyK3PbX5aGARL/4y3J70xZ2ld/gabqt+kR8B7FIw9\nzvqRFQp7tpHBXrubySkHSmnzTf4Fe4WyMuqF4qreXXxgdadZgoTPfB3FAoGBAJ6x\nTBjH5XNtuPs9uhEfR2KZYVmlOVUE9ZP6Anr7YC6dRRwTp77cpYduA61xXsFDEhNZ\nlJ/Z8kbmYFlfYcqSwzCFxDoIlA8z2lJ/ib1J1qjiYTeneSvdiRvpI+QGLHTiK3Wx\ntm5hg/BnMGljO3WKkcQ42YHbmd8GAzWvJ4nIG8z5AoGBANJEExl7JNcGNXbeDpYm\nitsOQc9M5cvgvaERXSwgIq5VGzDvG6Q2bO3NFdYPNKDzxE3+fNhGuLWEZm7KOwBq\nxLFKr2iNrdwB1tWv70PfW605IHcd/QFPUL1i6CV/2Mu3iOmdQuDQsoZEXaQaCip3\nTf5qOnCOTb+T7WuXdi+MddNm\n-----END PRIVATE KEY-----\n",
+  "client_email": "speech-api-access@sublime-vine-449205-s3.iam.gserviceaccount.com",
+  "client_id": "117314898963272998534",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/speech-api-access%40sublime-vine-449205-s3.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
