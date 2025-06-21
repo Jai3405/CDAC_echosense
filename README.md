@@ -1,7 +1,7 @@
 #  EchoSense: Intelligent Comment Filtering for Audio Discussions
 
 >  **C-DAC Summer Internship Project**   
->  **Tech Stack**: FastWhisper · Gemini 1.5 Flash · SentenceTransformers · FAISS · Google Colab
+>  **Tech Stack**: FastWhisper · Gemini 1.5 Flash · SentenceTransformers · FAISS · 
 
 ---
 
