@@ -1,84 +1,72 @@
 import streamlit as st
-import os
-import google.generativeai as genai
-from sentence_transformers import SentenceTransformer, util
-
-# Load environment variables
+from pathlib import Path
 from dotenv import load_dotenv
-load_dotenv()
+import os
+import json
+from sentence_transformers import SentenceTransformer, util
+import google.generativeai as genai
 
-# Initialize Gemini
+# Load environment variables (Gemini API Key)
+load_dotenv()
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 genai.configure(api_key=GEMINI_API_KEY)
 gemini_model = genai.GenerativeModel("gemini-1.5-flash")
 
-# Load sentence transformer model
+# Load SentenceTransformer
 embedder = SentenceTransformer("all-mpnet-base-v2")
 
-st.set_page_config(page_title="EchoSense", layout="centered")
-st.title("🎙️ EchoSense: Intelligent Comment Filtering")
+st.set_page_config(page_title="EchoSense: Intelligent Comment Filtering", layout="wide")
+st.title("🎙️ EchoSense: Intelligent Comment Filtering System")
+st.caption("Semantic Relevance + Novelty Detection of Audio Comments")
 
-st.write("Upload a Root Episode transcript and a list of comment transcripts to analyze relevance and novelty.")
+# Input: Root and Comment
+with st.expander("📌 Upload Inputs"):
+    root_text = st.text_area("🧠 Root Episode (Translated)", height=200)
+    comment_input = st.text_area("💬 Comment Input (Translated)", height=200)
+    trigger = st.button("🚀 Run EchoSense")
 
-# Upload root episode and comments
-root_text = st.text_area("Root Episode (translated):", height=150)
-comments_input = st.text_area("Comment Transcripts (translated, one per line):", height=200)
-
-threshold = st.slider("Cosine Similarity Threshold (Relevance)", 0.0, 1.0, 0.7, 0.01)
-
-if st.button("Analyze Comments"):
-    if not root_text or not comments_input:
-        st.warning("Please input both root episode and comment transcripts.")
+# Outputs after processing
+if trigger:
+    if not root_text.strip() or not comment_input.strip():
+        st.error("❗ Please provide both Root Episode and Comment input.")
     else:
-        root_embedding = embedder.encode([root_text])[0]
-        comments = [c.strip() for c in comments_input.splitlines() if c.strip()]
-        comment_embeddings = embedder.encode(comments)
+        # Embedding and cosine similarity
+        root_embedding = embedder.encode([root_text], normalize_embeddings=True)
+        comment_embedding = embedder.encode([comment_input], normalize_embeddings=True)
+        similarity_score = float(util.cos_sim(comment_embedding, root_embedding)[0][0])
 
-        results = []
-        accepted_comments = []
+        SIM_THRESHOLD = 0.72  # Tuned threshold
+        relevance = "ACCEPTED ✅" if similarity_score >= SIM_THRESHOLD else "REJECTED ❌"
 
-        st.subheader(" Relevance Filtering")
-        for comment, embedding in zip(comments, comment_embeddings):
-            sim_score = util.cos_sim(root_embedding, embedding).item()
-            relevant = sim_score >= threshold
-            results.append({
-                "comment": comment,
-                "similarity": sim_score,
-                "relevant": relevant
-            })
-            if relevant:
-                accepted_comments.append(comment)
-            st.markdown(f"**Comment:** {comment}\n\n*Similarity:* {sim_score:.2f} → {' Relevant' if relevant else ' Irrelevant'}")
+        st.subheader("🔍 Relevance Check (Cosine Similarity)")
+        st.write(f"**Similarity Score:** {similarity_score:.3f}")
+        st.write(f"**Decision:** {relevance}")
 
-        st.subheader(" Novelty Detection (LLM)")
-        novel_comments = []
-        for idx, current in enumerate(accepted_comments):
-            if idx == 0:
-                novel_comments.append(current)
-                st.success(f" Novel: {current}")
-                continue
-            previous_context = "\n".join(novel_comments)
-            prompt = f"""
-            You are filtering out duplicate opinions.
-            Previous accepted unique comments:
-            {previous_context}
+        if relevance.startswith("ACCEPTED"):
+            with st.spinner("🔄 Performing LLM-based Novelty Check..."):
+                # Gemini LLM Novelty Prompt
+                novelty_prompt = f"""
+You are a helpful assistant filtering out repetitive ideas in a discussion. 
+Given this root episode:
 
-            New comment:
-            {current}
+{root_text}
 
-            Is this new comment novel (adds new point)? Reply with only 'Novel' or 'Duplicate'.
-            """
-            try:
-                response = gemini_model.generate_content(prompt).text.strip().lower()
-                if "novel" in response:
-                    novel_comments.append(current)
-                    st.success(f" Novel: {current}")
-                else:
-                    st.info(f" Duplicate: {current}")
-            except Exception as e:
-                st.error(f"⚠️ Error processing comment: {current} - {e}")
+Now consider the following user comment:
 
-        st.subheader(" Summary")
-        st.markdown(f"**Total Comments:** {len(comments)}")
-        st.markdown(f"**Accepted (Relevant):** {len(accepted_comments)}")
-        st.markdown(f"**Novel Comments:** {len(novel_comments)}")
+{comment_input}
+
+Is this comment introducing a *novel* point or is it *repeating* ideas already expressed in the root?
+
+Respond with:
+- "Novel" if it's a new point
+- "Duplicate" if it's repeated.
+"""
+                try:
+                    response = gemini_model.generate_content(novelty_prompt)
+                    verdict = response.text.strip()
+                    st.subheader("🧠 LLM Novelty Check")
+                    st.write(f"**Verdict:** {verdict}")
+                except Exception as e:
+                    st.error(f"LLM error: {e}")
+        else:
+            st.info("LLM check skipped as comment is irrelevant to the discussion.")
