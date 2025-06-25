@@ -37,14 +37,14 @@ def index():
                 comment_paths.append(cpath)
 
             # Process root
-            root_transcript = transcribe(root_path)
+            root_transcript = transcribe_audio(root_path)
             root_translation = correct_and_translate(root_transcript)
             root_embedding = get_embeddings([root_translation])
 
             # Process comments
             translated_comments = []
             for cpath in comment_paths:
-                ctext = transcribe(cpath)
+                ctext = transcribe_audio(cpath)
                 translation = correct_and_translate(ctext)
                 translated_comments.append(translation)
 
@@ -52,12 +52,12 @@ def index():
 
             # Relevance
             from numpy import array
-            sims = cosine_similarity_check(array(root_embedding), array(comment_embeddings), threshold)
+            sims = cosine_similarity_matrix(array(root_embedding), array(comment_embeddings), threshold)
             accepted = [translated_comments[i] for i, sim in enumerate(sims) if sim['decision'] == 'ACCEPT']
             rejected = [translated_comments[i] for i, sim in enumerate(sims) if sim['decision'] != 'ACCEPT']
 
             # Novelty
-            novel_comments, _ = llm_novelty_check(accepted)
+            novel_comments, _ = check_novelty_with_llm(accepted)
 
             results = {
                 'root': root_translation,
