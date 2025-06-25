@@ -22,17 +22,17 @@ and further eliminate duplicate perspectives using LLM-powered novelty check.
 """)
 
 # Upload Inputs
-st.subheader("📁 Upload Root Episode (MP3)")
+st.subheader(" Upload Root Episode (MP3)")
 root_file = st.file_uploader("Upload root audio...", type=["mp3"], key="root")
 
-st.subheader("🗣️ Upload Comment Responses (MP3)")
+st.subheader(" Upload Comment Responses (MP3)")
 comment_files = st.file_uploader("Upload one or more comment audios...", type=["mp3"], accept_multiple_files=True, key="comments")
 
 st.sidebar.header("⚙️ Settings")
 similarity_threshold = st.sidebar.slider("Relevance Threshold (Cosine)", 0.0, 1.0, 0.65, 0.01)
 
-if st.button("🚀 Run EchoSense Pipeline") and root_file and comment_files:
-    with st.spinner("🔁 Running ASR + Translation + Relevance + Novelty..."):
+if st.button(" Run EchoSense Pipeline") and root_file and comment_files:
+    with st.spinner(" Running ASR + Translation + Relevance + Novelty..."):
         # Temp save files
         tmp_dir = tempfile.TemporaryDirectory()
         root_path = Path(tmp_dir.name) / "root.mp3"
@@ -51,8 +51,8 @@ if st.button("🚀 Run EchoSense Pipeline") and root_file and comment_files:
         root_translation = correct_and_translate(root_transcription)
         root_embedding = get_embeddings([root_translation])
 
-        st.success("✅ Root audio processed")
-        st.text_area("📌 Root Episode (Translated)", root_translation, height=100)
+        st.success(" Root audio processed")
+        st.text_area(" Root Episode (Translated)", root_translation, height=100)
 
         # Comment processing
         accepted_comments = []
@@ -75,7 +75,7 @@ if st.button("🚀 Run EchoSense Pipeline") and root_file and comment_files:
             else:
                 rejected_comments.append(translated_comments[i])
 
-        st.info(f"✅ {len(accepted_comments)} comments accepted | ❌ {len(rejected_comments)} rejected")
+        st.info(f" {len(accepted_comments)} comments accepted |  {len(rejected_comments)} rejected")
 
         # Novelty Check via LLM
         novel = []
@@ -92,13 +92,13 @@ if st.button("🚀 Run EchoSense Pipeline") and root_file and comment_files:
                 novel.append(comment)
                 seen.append(comment)
 
-        st.success(f"🧠 Novelty Filtering Done. {len(novel)} novel comments retained.")
+        st.success(f" Novelty Filtering Done. {len(novel)} novel comments retained.")
 
-        st.subheader("📝 Final Output")
+        st.subheader(" Final Output")
         for i, c in enumerate(novel):
             st.markdown(f"**{i+1}.** {c}")
 
     tmp_dir.cleanup()
 
-elif st.button("🚀 Run EchoSense Pipeline"):
+elif st.button(" Run EchoSense Pipeline"):
     st.warning("⚠️ Please upload both root and at least one comment file to proceed.")
