@@ -21,10 +21,10 @@ and further eliminate duplicate perspectives using LLM-powered novelty check.
 """)
 
 # Upload Inputs
-st.subheader("📁 Upload Root Episode (MP3)")
+st.subheader(" Upload Root Episode (MP3)")
 root_file = st.file_uploader("Upload root audio...", type=["mp3"], key="root")
 
-st.subheader("🗣️ Upload Comment Responses (MP3)")
+st.subheader(" Upload Comment Responses (MP3)")
 comment_files = st.file_uploader("Upload one or more comment audios...", type=["mp3"], accept_multiple_files=True, key="comments")
 
 st.sidebar.header("⚙️ Settings")
